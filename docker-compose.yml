@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    container_name: db
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: 'terraform'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+    networks:
+      - default
+      
+  api:
+    image: "seogeonhyuk/terraform-api-nest:latest"
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - default
+    
+networks:
+  default:
+    driver: bridge
